@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerçek Zamanlı Araç Telemetrisi - Cloud</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e2f; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .dashboard { background: #2a2a40; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 350px; }
+        h2 { margin-top: 0; color: #4facfe; }
+        .data-box { background: #1e1e2f; margin: 15px 0; padding: 15px; border-radius: 10px; border-left: 5px solid #00f2fe; display: flex; justify-content: space-between; align-items: center;}
+        .value { font-size: 24px; font-weight: bold; color: #00f2fe; }
+        .status { margin-top: 20px; font-size: 14px; color: #aaa; }
+        .connected { color: #00e676; font-weight: bold; }
+        .disconnected { color: #ff1744; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <h2>🚗 Hyundai Accent Blue</h2>
+        <p style="font-size: 12px; color: #4facfe;">Cloud Server: 13.62.54.131</p>
+        
+        <div class="data-box">
+            <span>Hız:</span>
+            <span class="value" id="hiz">0 km/h</span>
+        </div>
+        <div class="data-box">
+            <span>Devir:</span>
+            <span class="value" id="devir">0 RPM</span>
+        </div>
+        <div class="data-box" style="border-left-color: #ff0844;">
+            <span>GPS Lat:</span>
+            <span class="value" id="lat" style="color: #ff0844; font-size: 18px;">0.00000</span>
+        </div>
+        <div class="data-box" style="border-left-color: #ff0844;">
+            <span>GPS Lng:</span>
+            <span class="value" id="lng" style="color: #ff0844; font-size: 18px;">0.00000</span>
+        </div>
+
+        <div class="status" id="statusBox">
+            Bulut Bağlantısı Bekleniyor... <span class="disconnected">●</span>
+        </div>
+    </div>
+
+    <script>
+        // --- KRİTİK DEĞİŞİKLİK: WebSocket artık sunucuna bağlanıyor ---
+        const ws = new WebSocket('ws://13.62.54.131:8081');
+        const statusBox = document.getElementById('statusBox');
+
+        ws.onopen = () => {
+            statusBox.innerHTML = 'Bulut Sunucusuna Bağlı <span class="connected">●</span>';
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            
+            // Ekrana Verileri Yazdır
+            document.getElementById('hiz').innerText = data.hiz + ' km/h';
+            document.getElementById('devir').innerText = data.devir + ' RPM';
+            document.getElementById('lat').innerText = data.lat;
+            document.getElementById('lng').innerText = data.lng;
+        };
+
+        ws.onclose = () => {
+            statusBox.innerHTML = 'Bağlantı Koptu (Sunucuyu Kontrol Et) <span class="disconnected">●</span>';
+        };
+
+        // Hata ayıklama için konsola yazdır
+        ws.onerror = (error) => {
+            console.error('WebSocket Hatası:', error);
+        };
+    </script>
+</body>
+</html>
