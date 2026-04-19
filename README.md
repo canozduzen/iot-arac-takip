@@ -2,7 +2,7 @@
 
 Bu proje, bir aracın (Hyundai Accent Blue) telemetri verilerinin (Hız, Motor Devri, GPS Konumu) gerçek zamanlı olarak simüle edildiği, AWS bulut altyapısı üzerinden yayınlandığı ve NoSQL veritabanında depolandığı uçtan uca bir IoT (Nesnelerin İnterneti) uygulamasıdır.
 
-🔗 **[Canlı Demo İçin Tıklayın](http://canozduzen.github.io/iot-arac-takip/)** *(Not: Sistem bulut sunucusuyla gerçek zamanlı WebSocket bağlantısı kurduğu için tarayıcınızda 'Mixed Content / Güvenli Olmayan İçerik' izni vermeniz gerekebilir.)*
+🔗 **[Canlı Demo İçin Tıklayın](http://canozduzen.github.io/iot-arac-takip/frontend/)** *(Not: Sistem bulut sunucusuyla gerçek zamanlı WebSocket bağlantısı kurduğu için tarayıcınızda 'Mixed Content / Güvenli Olmayan İçerik' izni vermeniz gerekebilir.)*
 
 ---
 
